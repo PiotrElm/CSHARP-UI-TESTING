@@ -1,0 +1,7 @@
+WpfApp1/bin/
+WpfApp1/obj/
+WpfApp1/Properties/
+.vs/
+
+*.cache
+*.cache
