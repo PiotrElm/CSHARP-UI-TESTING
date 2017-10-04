@@ -5,16 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="GRBL UI" Height="350" Width="525" Loaded="Window_Loaded">
-    <Grid>
+        Title="GRBL UI" Height="768" Width="1024" Loaded="Window_Loaded">
+    <Grid Margin="0,-2,0,2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="159,17,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click"/>
-        <ComboBox x:Name="comboBox1" HorizontalAlignment="Left" Margin="18,24,0,0" VerticalAlignment="Top" Width="120"/>
-        <TextBlock x:Name="responseBlock" HorizontalAlignment="Left" Margin="18,264,0,0" TextWrapping="Wrap" Text="No connection" VerticalAlignment="Top" Height="19" Width="110"/>
-        <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="10,283,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784"/>
-        <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="109,284,0,0" VerticalAlignment="Top" Width="52"/>
+        <TextBlock x:Name="responseBlock" HorizontalAlignment="Left" Margin="227,68,0,0" TextWrapping="Wrap" Text="No connection" VerticalAlignment="Top" Height="11" Width="55" FontSize="8"/>
+        <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
+        <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="114,83,0,0" VerticalAlignment="Top" Width="24" RenderTransformOrigin="0.556,0.487"/>
+        <ComboBox x:Name="ComsComboBox" HorizontalAlignment="Left" Margin="72,24,0,0" VerticalAlignment="Top" Width="120" Height="18" FontSize="9"/>
+        <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="215,34,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click"/>
+        <ComboBox x:Name="BaudrateComboBox" HorizontalAlignment="Left" Margin="72,56,0,0" VerticalAlignment="Top" Width="120" Height="18" FontSize="9"/>
+        <Label x:Name="PORT_label" Content="Port:" HorizontalAlignment="Left" Margin="25,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
+        <Label x:Name="Baudrate_label" Content="Baud:" HorizontalAlignment="Left" Margin="22,51,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="10,128,0,0" VerticalAlignment="Top" Width="700">
+            <Label x:Name="label_Copy" Content="Automatic work" RenderTransformOrigin="0.509,0.429" Margin="268,-1,274,459" Width="156" FontSize="20"/>
+        </Border>
+        <Button x:Name="button" Content="Load file" HorizontalAlignment="Left" Margin="40,163,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-1.362,2.425" Click="button_Click"/>
 
     </Grid>
 </Window>

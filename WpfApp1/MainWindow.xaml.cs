@@ -19,14 +19,15 @@ using System.Diagnostics;
 
 namespace WpfApp1
 {
-   
     public partial class MainWindow : Window
     {
         String[] ports;
         SerialPort port;
+        int selectedBaudrate;
         bool isConnected = false;
         private int myTimer;
         public string response = "";
+        int[] baudrates = { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200 }; //hardcoded baudrates from https://www.arduino.cc/en/Serial/Begin
         public MainWindow()
         {
             InitializeComponent();
@@ -34,24 +35,33 @@ namespace WpfApp1
 
             foreach(string port in ports)
             {
-                comboBox1.Items.Add(port);
+                ComsComboBox.Items.Add(port);
                     if (ports[0] != null)
                 {
-                    comboBox1.SelectedItem = ports[0];
+                    ComsComboBox.SelectedItem = ports[ports.Length - 1];
                 }
             }
+            foreach(int baudrate in baudrates)
+            {
+                BaudrateComboBox.Items.Add(baudrate);
+                if (baudrates[0] >0)
+                {
+                    BaudrateComboBox.SelectedItem = baudrates[baudrates.Length-1];
+                }
+            }
+
             void getAllPorts()
             {
                 ports = SerialPort.GetPortNames();
             }
-
-            
+            variables.fileopened
         }
         private void connect()
         {
             
-            string selectedPort = comboBox1.SelectedValue.ToString();
-            port = new SerialPort(selectedPort, 9600, Parity.None, 8, StopBits.One);
+            string selectedPort = ComsComboBox.SelectedValue.ToString();
+            int selectedBaudrate = int.Parse(BaudrateComboBox.SelectedItem.ToString());
+            port = new SerialPort(selectedPort, selectedBaudrate, Parity.None, 8, StopBits.One);
             port.Open();
             port.Write("Connection opened!");
             conDisconButton.Content = "Disconnect";
@@ -116,6 +126,12 @@ namespace WpfApp1
             }
             time_ticks.Content = myTimer/2 + "s";
 
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            Load_file_partial second_view = new Load_file_partial();
+            second_view.Show();
         }
     }
 }
