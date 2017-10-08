@@ -1,27 +1,34 @@
-﻿<Window x:Class="WpfApp1.MainWindow"
+﻿<Window x:Class="GrblEngineerProject.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:GrblEngineerProject"
         mc:Ignorable="d"
         Title="GRBL UI" Height="768" Width="1024" Loaded="Window_Loaded">
     <Grid Margin="0,-2,0,2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="responseBlock" HorizontalAlignment="Left" Margin="227,68,0,0" TextWrapping="Wrap" Text="No connection" VerticalAlignment="Top" Height="11" Width="55" FontSize="8"/>
-        <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
-        <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="114,83,0,0" VerticalAlignment="Top" Width="24" RenderTransformOrigin="0.556,0.487"/>
-        <ComboBox x:Name="ComsComboBox" HorizontalAlignment="Left" Margin="72,24,0,0" VerticalAlignment="Top" Width="120" Height="18" FontSize="9"/>
-        <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="215,34,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click"/>
-        <ComboBox x:Name="BaudrateComboBox" HorizontalAlignment="Left" Margin="72,56,0,0" VerticalAlignment="Top" Width="120" Height="18" FontSize="9"/>
-        <Label x:Name="PORT_label" Content="Port:" HorizontalAlignment="Left" Margin="25,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
-        <Label x:Name="Baudrate_label" Content="Baud:" HorizontalAlignment="Left" Margin="22,51,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="10,128,0,0" VerticalAlignment="Top" Width="700">
+        <TextBlock x:Name="responseBlock" HorizontalAlignment="Left" Margin="32,85,0,0" TextWrapping="Wrap" Text="No connection" VerticalAlignment="Top" Height="17" Width="80" RenderTransformOrigin="-1.4,-0.273" Foreground="Red"/>
+        <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="8,99,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
+        <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="107,100,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.556,0.487"/>
+        <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="34,54,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click" IsEnabled="False"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="10,128,0,0" VerticalAlignment="Top" Width="715" RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.122"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="0.748"/>
+                </TransformGroup>
+            </Border.RenderTransform>
             <Label x:Name="label_Copy" Content="Automatic work" RenderTransformOrigin="0.509,0.429" Margin="268,-1,274,459" Width="156" FontSize="20"/>
         </Border>
         <Button x:Name="button" Content="Load file" HorizontalAlignment="Left" Margin="40,163,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-1.362,2.425" Click="button_Click"/>
+        <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Height="30" Margin="34,19,0,0" VerticalAlignment="Top" Width="75" Click="settingsButton_Click"/>
+        <ListBox x:FieldModifier="public" x:Name="serialLogBox" HorizontalAlignment="Left" Height="500" Margin="34,205,0,0" VerticalAlignment="Top" Width="421" BorderThickness="3" ClipToBounds="True"/>
+        <Button x:Name="getGrblConfigButton" Content="Get Position" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="180,10,0,0" IsEnabled="False" Click="getGrblConfigButton_Click"/>
 
     </Grid>
 </Window>

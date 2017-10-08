@@ -5,13 +5,14 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using GrblEngineerProject.Partials;
+using GrblEngineerProject.Machine;
 
-namespace WpfApp1
+namespace GrblEngineerProject
 {
-    /// <summary>
-    /// Logika interakcji dla klasy App.xaml
-    /// </summary>
+    
     public partial class App : Application
     {
+        public static CNCConnection myGlobalConnection = new CNCConnection();
     }
 }

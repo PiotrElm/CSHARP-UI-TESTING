@@ -16,90 +16,39 @@ using System.IO.Ports;
 using System.Threading;
 using System.Windows.Threading;
 using System.Diagnostics;
+using GrblEngineerProject.Machine;
+using GrblEngineerProject.Partials;
+using GrblEngineerProject;
 
-namespace WpfApp1
+namespace GrblEngineerProject
 {
     public partial class MainWindow : Window
     {
-        String[] ports;
-        SerialPort port;
-        int selectedBaudrate;
-        bool isConnected = false;
+        CNCConnection myCNC = App.myGlobalConnection;
         private int myTimer;
-        public string response = "";
-        int[] baudrates = { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200 }; //hardcoded baudrates from https://www.arduino.cc/en/Serial/Begin
         public MainWindow()
         {
             InitializeComponent();
-            getAllPorts();
-
-            foreach(string port in ports)
-            {
-                ComsComboBox.Items.Add(port);
-                    if (ports[0] != null)
-                {
-                    ComsComboBox.SelectedItem = ports[ports.Length - 1];
-                }
-            }
-            foreach(int baudrate in baudrates)
-            {
-                BaudrateComboBox.Items.Add(baudrate);
-                if (baudrates[0] >0)
-                {
-                    BaudrateComboBox.SelectedItem = baudrates[baudrates.Length-1];
-                }
-            }
-
-            void getAllPorts()
-            {
-                ports = SerialPort.GetPortNames();
-            }
-            variables.fileopened
-        }
-        private void connect()
-        {
-            
-            string selectedPort = ComsComboBox.SelectedValue.ToString();
-            int selectedBaudrate = int.Parse(BaudrateComboBox.SelectedItem.ToString());
-            port = new SerialPort(selectedPort, selectedBaudrate, Parity.None, 8, StopBits.One);
-            port.Open();
-            port.Write("Connection opened!");
-            conDisconButton.Content = "Disconnect";
-            isConnected = true;
+            myCNC.LineReceived += myCNCLineReceived;
         }
 
-        private void disconnect()
-        {
-            port.Close();
-            conDisconButton.Content = "Connect";
-            isConnected = false;
-        }
-
-        private void getLine()
-        {
-             string temp = port.ReadExisting();
-
-            if (isConnected && temp!=null && temp!="")
-            {
-                response = temp;
-            }
-            else
-            {
-            }
-        }
         
         private void conDisconButton_Click(object sender, RoutedEventArgs e)
         {
            
-            if (!isConnected)
-            { 
-                connect();
+            if (!myCNC.isConnected)
+            {
+                myCNC.connect();
+                serialLogBox.Items.Clear();
+                serialLogBox.Items.Add("Serial communication on " + myCNC.PortName + " with speed of " + myCNC.ConnectionBaudRate + "bps");
                 myTimer = 0;
             }
             else
             {
-                disconnect();
+                myCNC.disconnect();
+                serialLogBox.Items.Clear();
                 myTimer = 0;
+                conDisconButton.Content = "Connect";
             }
         }
         
@@ -113,25 +62,48 @@ namespace WpfApp1
 
         private void dtTicker(object sender, EventArgs e)
         {
-            if (isConnected)
+            if (myCNC.isConfigured)
             {
-                responseBlock.Text = "Connected!";
-                myTimer++;
-                 getLine();
-               
+                conDisconButton.IsEnabled = true;
+                if (myCNC.isConnected)
+                {
+                    myTimer++;
+                    responseBlock.Foreground = Brushes.Green;
+                    responseBlock.Text = "Connected!";
+                    conDisconButton.Content = "Disconnect";
+                    getGrblConfigButton.IsEnabled = true;
+                }
+                else
+                {
+                    responseBlock.Foreground = Brushes.Red;
+                    responseBlock.Text = "No connection";
+                    conDisconButton.Content = "Connect";
+                    getGrblConfigButton.IsEnabled = false;
+                }
             }
-            else
-            {
-                responseBlock.Text = "No connection";
-            }
+           
+           
             time_ticks.Content = myTimer/2 + "s";
 
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            Load_file_partial second_view = new Load_file_partial();
-            second_view.Show();
+        }
+
+        public void settingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionSettings settingsView = new ConnectionSettings();
+            settingsView.Show();
+        }
+        private void myCNCLineReceived(string obj)
+        {
+            serialLogBox.Items.Add(obj);
+        }
+
+        private void getGrblConfigButton_Click(object sender, RoutedEventArgs e)
+        {
+            myCNC.getPosition();
         }
     }
 }
