@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -89,6 +90,25 @@ namespace GrblEngineerProject
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            OpenFileDialog opened_file = new OpenFileDialog();
+            opened_file.DefaultExt = ".nc";
+            opened_file.Filter = "Gcode file (*.nc)|*.nc";
+
+            if (opened_file.ShowDialog() == true)
+            {
+                string filename = opened_file.FileName;
+                try
+                {
+                    myCNC.LoadFile(System.IO.File.ReadAllLines(opened_file.FileName));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+           
+
         }
 
         public void settingsButton_Click(object sender, RoutedEventArgs e)
@@ -103,7 +123,12 @@ namespace GrblEngineerProject
 
         private void getGrblConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            myCNC.getPosition();
+            myCNC.Work();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

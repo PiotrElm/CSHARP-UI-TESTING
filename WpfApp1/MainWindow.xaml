@@ -29,6 +29,35 @@
         <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Height="30" Margin="34,19,0,0" VerticalAlignment="Top" Width="75" Click="settingsButton_Click"/>
         <ListBox x:FieldModifier="public" x:Name="serialLogBox" HorizontalAlignment="Left" Height="500" Margin="34,205,0,0" VerticalAlignment="Top" Width="421" BorderThickness="3" ClipToBounds="True"/>
         <Button x:Name="getGrblConfigButton" Content="Get Position" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="180,10,0,0" IsEnabled="False" Click="getGrblConfigButton_Click"/>
+       
+        <Button HorizontalAlignment="Left" Margin="785,130,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image Source="Img/up_left.png" Height="30" Width="30"/>
+        </Button>
+        <Button  HorizontalAlignment="Left" Margin="840,130,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image  Source="Img/up.png" Height="30" Width="30"/>
+        </Button>
+        <Button  HorizontalAlignment="Left" Margin="895,130,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image  Source="Img/up_right.png" Height="30" Width="30"/>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="785,185,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image Source="Img/left.png" Height="30" Width="30"></Image>
+        </Button>
+        <Button  HorizontalAlignment="Left" Margin="840,185,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image  Source="Img/stop.png" Height="30" Width="30"/>
+        </Button>
+        <Button  HorizontalAlignment="Left" Margin="895,185,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image  Source="Img/right.png" Height="30" Width="30"/>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="785,235,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image Source="Img/down_left.png" Height="30" Width="30"/>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="840,235,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image Source="Img/down.png" Height="30" Width="30"/>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="895,235,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
+            <Image Source="Img/down_right.png" Height="30" Width="30"/>
+        </Button>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Height="0" Margin="1160,225,-144,0" VerticalAlignment="Top" Width="0"/>
 
     </Grid>
 </Window>

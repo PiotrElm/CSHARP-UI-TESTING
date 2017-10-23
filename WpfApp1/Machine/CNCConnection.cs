@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,27 @@ namespace GrblEngineerProject.Machine
         public bool isConfigured = false;
         public bool isCNCIdle = true;
         public string PortName;
-        
+        private int _filePosition = 0;
+
+
+        private ReadOnlyCollection<string> _file = new ReadOnlyCollection<string>(new string[0]);
+        public ReadOnlyCollection<string> File
+        {
+            get { return _file; }
+            set
+            {
+                _file = value;
+                FilePosition = 0;
+            }
+        }
+        public int FilePosition
+        {
+            get { return _filePosition; }
+            private set
+            {
+                _filePosition = value;
+            }
+        }
 
         public void saveSettings()
         {
@@ -38,7 +59,6 @@ namespace GrblEngineerProject.Machine
             port.Open();
             Connection = port.BaseStream;
             isConnected = true;
-            CNCWorks();
         }
 
         public void disconnect()
@@ -48,29 +68,57 @@ namespace GrblEngineerProject.Machine
             Connection = null;
             isConnected = false;
         }
-
+        public void Work()
+        {
+            WorkerThread = new Thread(CNCWorks);
+            WorkerThread.Priority = ThreadPriority.AboveNormal;
+            WorkerThread.Start();
+        }
 
         private void CNCWorks()
         {
-            StreamReader portReader = new StreamReader(Connection);
-            StreamWriter portWriter = new StreamWriter(Connection);
-            portWriter.Write("\n");
-            portWriter.Flush();
-            Task<string> lineTask = portReader.ReadLineAsync();
-            string line = lineTask.Result;
-            RaiseEvent(LineReceived, line);
+           
+                try
+                {
+                    StreamReader portReader = new StreamReader(Connection);
+                    StreamWriter portWriter = new StreamWriter(Connection);
+                    portWriter.Write("\n$G\n");
+                    portWriter.Flush();
+                while (true)
+                {
+                    Task<string> lineTask = portReader.ReadLineAsync();
+                    while (!lineTask.IsCompleted)
+                    {
+                        if (File.Count > FilePosition)
+                        {
+                            string send_line = File[FilePosition++];
+                            portWriter.Write(send_line);
+                            portWriter.Write('\n');
+                            portWriter.Flush();
+                            continue;
+                        }
+                    }
+                    string line = lineTask.Result;
+                    RaiseEvent(LineReceived, line);
+                }
+                    
+                }
+                catch (Exception workexception)
+                {
+                    Console.WriteLine(workexception);
+                    disconnect();
+                }
+            
+           
+            
         }
 
-        public void getPosition()
+        public void LoadFile(IList<string> file)
         {
-            StreamReader portReader = new StreamReader(Connection);
-            StreamWriter portWriter = new StreamWriter(Connection);
-            portWriter.Write("?");
-            portWriter.Flush();
-            Task<string> lineTask = portReader.ReadLineAsync();
-            string line = lineTask.Result;
-            RaiseEvent(LineReceived, line);
+            File = new ReadOnlyCollection<string>(file);
+            FilePosition = 0;
         }
+
         private void RaiseEvent(Action<string> action, string param)
         {
             if (action == null)
