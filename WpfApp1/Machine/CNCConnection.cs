@@ -63,10 +63,16 @@ namespace GrblEngineerProject.Machine
 
         public void disconnect()
         {
+            try {
             Connection.Close();
             Connection.Dispose();
             Connection = null;
             isConnected = false;
+                isCNCIdle = true;
+            }
+            catch(Exception e)
+            {
+            }
         }
         public void Work()
         {
@@ -84,24 +90,34 @@ namespace GrblEngineerProject.Machine
                     StreamWriter portWriter = new StreamWriter(Connection);
                     portWriter.Write("\n$G\n");
                     portWriter.Flush();
-                while (true)
-                {
-                    Task<string> lineTask = portReader.ReadLineAsync();
+                    while (true)
+                    {
+                        if (!isConnected)
+                        {
+                            return;
+                        }
+
+                        Task<string> lineTask = portReader.ReadLineAsync();
                     while (!lineTask.IsCompleted)
                     {
                         if (File.Count > FilePosition)
                         {
+                            isCNCIdle = false;
                             string send_line = File[FilePosition++];
                             portWriter.Write(send_line);
                             portWriter.Write('\n');
                             portWriter.Flush();
+                            RaiseEvent(LineSent, send_line);
+                            while (lineTask.Result == "") {}
                             continue;
+                            }
+                        
                         }
+                        string line = lineTask.Result;
+                        RaiseEvent(LineReceived, line);
+                  
                     }
-                    string line = lineTask.Result;
-                    RaiseEvent(LineReceived, line);
-                }
-                    
+
                 }
                 catch (Exception workexception)
                 {

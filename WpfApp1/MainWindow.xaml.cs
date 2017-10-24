@@ -27,13 +27,16 @@ namespace GrblEngineerProject
     {
         CNCConnection myCNC = App.myGlobalConnection;
         private int myTimer;
+        public string fileName;
         public MainWindow()
         {
             InitializeComponent();
             myCNC.LineReceived += myCNCLineReceived;
+            myCNC.LineSent += myCNCLineSent;
         }
 
-        
+
+
         private void conDisconButton_Click(object sender, RoutedEventArgs e)
         {
            
@@ -63,24 +66,41 @@ namespace GrblEngineerProject
 
         private void dtTicker(object sender, EventArgs e)
         {
+            fileTextBox.Text = "File:" + fileName;
             if (myCNC.isConfigured)
             {
                 conDisconButton.IsEnabled = true;
+
                 if (myCNC.isConnected)
                 {
+                    machineStatusFlag.Fill = Brushes.Green;
                     myTimer++;
                     responseBlock.Foreground = Brushes.Green;
                     responseBlock.Text = "Connected!";
                     conDisconButton.Content = "Disconnect";
-                    getGrblConfigButton.IsEnabled = true;
+                    sendFileButton.IsEnabled = true;
+                    if (!myCNC.isCNCIdle)
+                    {
+                        machineStatusFlag.Fill = Brushes.Red;
+                        loadFileButton.IsEnabled = false;
+                        sendFileButton.IsEnabled = false;
+                    }
+                    else
+                    {
+                        machineStatusFlag.Fill = Brushes.Green;
+                        loadFileButton.IsEnabled = true;
+                        sendFileButton.IsEnabled = true;
+                    }
                 }
                 else
                 {
                     responseBlock.Foreground = Brushes.Red;
                     responseBlock.Text = "No connection";
                     conDisconButton.Content = "Connect";
-                    getGrblConfigButton.IsEnabled = false;
+                    sendFileButton.IsEnabled = false;
+                    machineStatusFlag.Fill = Brushes.DarkGray;
                 }
+
             }
            
            
@@ -88,7 +108,7 @@ namespace GrblEngineerProject
 
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void loadFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog opened_file = new OpenFileDialog();
             opened_file.DefaultExt = ".nc";
@@ -100,6 +120,7 @@ namespace GrblEngineerProject
                 try
                 {
                     myCNC.LoadFile(System.IO.File.ReadAllLines(opened_file.FileName));
+                    fileName = opened_file.FileName;
                 }
                 catch (Exception ex)
                 {
@@ -120,8 +141,12 @@ namespace GrblEngineerProject
         {
             serialLogBox.Items.Add(obj);
         }
+        private void myCNCLineSent(string obj)
+        {
+            serialLogBox.Items.Add(obj);
+        }
 
-        private void getGrblConfigButton_Click(object sender, RoutedEventArgs e)
+        private void sendFileButton_Click(object sender, RoutedEventArgs e)
         {
             myCNC.Work();
         }

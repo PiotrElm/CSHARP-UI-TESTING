@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GrblEngineerProject"
         mc:Ignorable="d"
-        Title="GRBL UI" Height="768" Width="1024" Loaded="Window_Loaded">
+        Title="GRBL UI" Height="715" Width="1024" Loaded="Window_Loaded">
     <Grid Margin="0,-2,0,2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -14,7 +14,7 @@
         <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="8,99,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
         <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="107,100,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.556,0.487"/>
         <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="34,54,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click" IsEnabled="False"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="600" Margin="10,128,0,0" VerticalAlignment="Top" Width="715" RenderTransformOrigin="0.5,0.5">
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="547" Margin="10,128,0,0" VerticalAlignment="Top" Width="715" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -23,13 +23,13 @@
                     <TranslateTransform Y="0.748"/>
                 </TransformGroup>
             </Border.RenderTransform>
-            <Label x:Name="label_Copy" Content="Automatic work" RenderTransformOrigin="0.509,0.429" Margin="268,-1,274,459" Width="156" FontSize="20"/>
+            <TextBlock Name="fileTextBox" HorizontalAlignment="Left" Height="15" Margin="29,56,0,0" TextWrapping="Wrap" Text="File : " VerticalAlignment="Top" Width="410" FontSize="9"/>
         </Border>
-        <Button x:Name="button" Content="Load file" HorizontalAlignment="Left" Margin="40,163,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-1.362,2.425" Click="button_Click"/>
+        <Button x:Name="loadFileButton" Content="Load file" HorizontalAlignment="Left" Margin="40,163,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-1.362,2.425" Click="loadFileButton_Click"/>
         <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Height="30" Margin="34,19,0,0" VerticalAlignment="Top" Width="75" Click="settingsButton_Click"/>
-        <ListBox x:FieldModifier="public" x:Name="serialLogBox" HorizontalAlignment="Left" Height="500" Margin="34,205,0,0" VerticalAlignment="Top" Width="421" BorderThickness="3" ClipToBounds="True"/>
-        <Button x:Name="getGrblConfigButton" Content="Get Position" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="180,10,0,0" IsEnabled="False" Click="getGrblConfigButton_Click"/>
-       
+        <ListBox x:FieldModifier="public" x:Name="serialLogBox" HorizontalAlignment="Left" Height="465" Margin="34,205,0,0" VerticalAlignment="Top" Width="421" BorderThickness="3" ClipToBounds="True"/>
+        <Button x:Name="sendFileButton" Content="Send fle!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="135,163,0,0" IsEnabled="False" Click="sendFileButton_Click"/>
+
         <Button HorizontalAlignment="Left" Margin="785,130,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
             <Image Source="Img/up_left.png" Height="30" Width="30"/>
         </Button>
@@ -58,6 +58,7 @@
             <Image Source="Img/down_right.png" Height="30" Width="30"/>
         </Button>
         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Height="0" Margin="1160,225,-144,0" VerticalAlignment="Top" Width="0"/>
+        <Rectangle Name="machineStatusFlag" Fill="DarkGray" Margin="476,13,475,641" Stroke="DarkGray"/>
 
     </Grid>
 </Window>
