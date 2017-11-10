@@ -5,16 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GrblEngineerProject"
         mc:Ignorable="d"
-        Title="GRBL UI" Height="715" Width="1024" Loaded="Window_Loaded">
+        Title="GRBL UI" Height="800" Width="600" Loaded="Window_Loaded">
     <Grid Margin="0,-2,0,2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="755*"/>
+            <RowDefinition Height="14*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="responseBlock" HorizontalAlignment="Left" Margin="32,85,0,0" TextWrapping="Wrap" Text="No connection" VerticalAlignment="Top" Height="17" Width="80" RenderTransformOrigin="-1.4,-0.273" Foreground="Red"/>
-        <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="8,99,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
-        <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="107,100,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.556,0.487"/>
-        <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="34,54,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click" IsEnabled="False"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="547" Margin="10,128,0,0" VerticalAlignment="Top" Width="715" RenderTransformOrigin="0.5,0.5">
+        <TextBlock x:Name="responseBlock" HorizontalAlignment="Left" Margin="130,49,0,0" TextWrapping="Wrap" Text="No connection" VerticalAlignment="Top" Height="17" Width="80" RenderTransformOrigin="-1.4,-0.273" Foreground="Red"/>
+        <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="385,686,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
+        <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="484,687,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.556,0.487"/>
+        <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="135,20,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click" IsEnabled="False"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="645" Margin="10,70,0,0" VerticalAlignment="Top" Width="560" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -23,42 +27,15 @@
                     <TranslateTransform Y="0.748"/>
                 </TransformGroup>
             </Border.RenderTransform>
-            <TextBlock Name="fileTextBox" HorizontalAlignment="Left" Height="15" Margin="29,56,0,0" TextWrapping="Wrap" Text="File : " VerticalAlignment="Top" Width="410" FontSize="9"/>
+            <TextBlock Name="fileTextBox" HorizontalAlignment="Left" Height="15" Margin="29,28,0,0" TextWrapping="Wrap" Text="File : " VerticalAlignment="Top" Width="410" FontSize="9"/>
         </Border>
-        <Button x:Name="loadFileButton" Content="Load file" HorizontalAlignment="Left" Margin="40,163,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-1.362,2.425" Click="loadFileButton_Click"/>
+        <Button x:Name="loadFileButton" Content="Load file" HorizontalAlignment="Left" Margin="40,75,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-1.362,2.425" Click="loadFileButton_Click"/>
         <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Height="30" Margin="34,19,0,0" VerticalAlignment="Top" Width="75" Click="settingsButton_Click"/>
-        <ListBox x:FieldModifier="public" x:Name="serialLogBox" HorizontalAlignment="Left" Height="465" Margin="34,205,0,0" VerticalAlignment="Top" Width="421" BorderThickness="3" ClipToBounds="True"/>
-        <Button x:Name="sendFileButton" Content="Send fle!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="135,163,0,0" IsEnabled="False" Click="sendFileButton_Click"/>
-
-        <Button HorizontalAlignment="Left" Margin="785,130,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image Source="Img/up_left.png" Height="30" Width="30"/>
-        </Button>
-        <Button  HorizontalAlignment="Left" Margin="840,130,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image  Source="Img/up.png" Height="30" Width="30"/>
-        </Button>
-        <Button  HorizontalAlignment="Left" Margin="895,130,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image  Source="Img/up_right.png" Height="30" Width="30"/>
-        </Button>
-        <Button HorizontalAlignment="Left" Margin="785,185,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image Source="Img/left.png" Height="30" Width="30"></Image>
-        </Button>
-        <Button  HorizontalAlignment="Left" Margin="840,185,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image  Source="Img/stop.png" Height="30" Width="30"/>
-        </Button>
-        <Button  HorizontalAlignment="Left" Margin="895,185,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image  Source="Img/right.png" Height="30" Width="30"/>
-        </Button>
-        <Button HorizontalAlignment="Left" Margin="785,235,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image Source="Img/down_left.png" Height="30" Width="30"/>
-        </Button>
-        <Button HorizontalAlignment="Left" Margin="840,235,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image Source="Img/down.png" Height="30" Width="30"/>
-        </Button>
-        <Button HorizontalAlignment="Left" Margin="895,235,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="Transparent" BorderThickness="0">
-            <Image Source="Img/down_right.png" Height="30" Width="30"/>
-        </Button>
-        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Height="0" Margin="1160,225,-144,0" VerticalAlignment="Top" Width="0"/>
-        <Rectangle Name="machineStatusFlag" Fill="DarkGray" Margin="476,13,475,641" Stroke="DarkGray"/>
+        <ListBox x:FieldModifier="public" x:Name="serialLogBox" HorizontalAlignment="Left" Height="570" Margin="34,115,0,0" VerticalAlignment="Top" Width="507" BorderThickness="3" ClipToBounds="True"/>
+        <Button x:Name="sendFileButton" Content="Send fle!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="140,75,0,0" IsEnabled="False" Click="sendFileButton_Click"/>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Height="0" Margin="1160,225,-568,0" VerticalAlignment="Top" Width="0"/>
+        <Rectangle Name="machineStatusFlag" Fill="DarkGray" Margin="476,13,116,627" Stroke="DarkGray"/>
+        <TextBlock x:Name="PositionTextBlock" HorizontalAlignment="Left" Margin="40,724,0,0" TextWrapping="Wrap" Text="Aktualna pozycja:" VerticalAlignment="Top" RenderTransformOrigin="-1.02,0" Height="26" Width="501"/>
 
     </Grid>
 </Window>

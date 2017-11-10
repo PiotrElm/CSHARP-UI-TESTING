@@ -10,6 +10,7 @@ using System.IO.Ports;
 using System.Threading;
 using GrblEngineerProject;
 using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace GrblEngineerProject.Machine
 {
@@ -17,6 +18,7 @@ namespace GrblEngineerProject.Machine
     {
         public event Action<string> LineReceived;
         public event Action<string> LineSent;
+        public event Action<string> PositionReceived;
         private Stream Connection;
         private Thread WorkerThread;
 
@@ -90,7 +92,9 @@ namespace GrblEngineerProject.Machine
                     StreamWriter portWriter = new StreamWriter(Connection);
                     portWriter.Write("\n$G\n");
                     portWriter.Flush();
-                    while (true)
+
+
+                while (true)
                     {
                         if (!isConnected)
                         {
@@ -113,8 +117,21 @@ namespace GrblEngineerProject.Machine
                             }
                         
                         }
+
                         string line = lineTask.Result;
+
+                
+                    if (line.StartsWith("<"))
+                    {
+                        RaiseEvent(PositionReceived, line);
+                    }
+                    else
+                    {
                         RaiseEvent(LineReceived, line);
+                    }
+
+              
+                      
                   
                     }
 

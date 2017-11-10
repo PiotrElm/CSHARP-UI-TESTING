@@ -137,13 +137,26 @@ namespace GrblEngineerProject
             ConnectionSettings settingsView = new ConnectionSettings();
             settingsView.Show();
         }
+        private static void scrollDown(ListBox controlName)
+        {
+            controlName.SelectedIndex = controlName.Items.Count - 1;
+            controlName.ScrollIntoView(controlName.SelectedItem);
+        }
+
+
         private void myCNCLineReceived(string obj)
         {
             serialLogBox.Items.Add(obj);
+            scrollDown(serialLogBox);
         }
         private void myCNCLineSent(string obj)
         {
             serialLogBox.Items.Add(obj);
+            scrollDown(serialLogBox);
+        }
+        private void myCNCPositionReceived(string obj)
+        {
+            PositionTextBlock.Text = obj;
         }
 
         private void sendFileButton_Click(object sender, RoutedEventArgs e)
