@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GrblEngineerProject"
         mc:Ignorable="d"
-        Title="GRBL UI" Height="800" Width="600" Loaded="Window_Loaded">
-    <Grid Margin="0,-2,0,2">
+        Title="GRBL UI" Height="768" Width="1024
+        " Loaded="Window_Loaded">
+    <Grid Margin="-1,-2,1,2" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="755*"/>
             <RowDefinition Height="14*"/>
@@ -15,27 +16,71 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="responseBlock" HorizontalAlignment="Left" Margin="130,49,0,0" TextWrapping="Wrap" Text="No connection" VerticalAlignment="Top" Height="17" Width="80" RenderTransformOrigin="-1.4,-0.273" Foreground="Red"/>
-        <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="385,686,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
-        <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="484,687,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.556,0.487"/>
-        <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="135,20,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click" IsEnabled="False"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="645" Margin="10,70,0,0" VerticalAlignment="Top" Width="560" RenderTransformOrigin="0.5,0.5">
-            <Border.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleY="0.122"/>
-                    <RotateTransform/>
-                    <TranslateTransform Y="0.748"/>
-                </TransformGroup>
-            </Border.RenderTransform>
-            <TextBlock Name="fileTextBox" HorizontalAlignment="Left" Height="15" Margin="29,28,0,0" TextWrapping="Wrap" Text="File : " VerticalAlignment="Top" Width="410" FontSize="9"/>
-        </Border>
-        <Button x:Name="loadFileButton" Content="Load file" HorizontalAlignment="Left" Margin="40,75,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-1.362,2.425" Click="loadFileButton_Click"/>
-        <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Height="30" Margin="34,19,0,0" VerticalAlignment="Top" Width="75" Click="settingsButton_Click"/>
-        <ListBox x:FieldModifier="public" x:Name="serialLogBox" HorizontalAlignment="Left" Height="570" Margin="34,115,0,0" VerticalAlignment="Top" Width="507" BorderThickness="3" ClipToBounds="True"/>
-        <Button x:Name="sendFileButton" Content="Send fle!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="140,75,0,0" IsEnabled="False" Click="sendFileButton_Click"/>
+        <Label x:Name="label" Content="Connection Time :" HorizontalAlignment="Left" Margin="359,594,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.488,0.784" Height="27"/>
+        <Label x:Name="time_ticks" Content="0" HorizontalAlignment="Left" Margin="458,595,0,0" VerticalAlignment="Top" Width="83" RenderTransformOrigin="0.556,0.487"/>
+        <Button x:Name="conDisconButton" Content="Connect" HorizontalAlignment="Left" Margin="125,20,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="-0.212,0.474" Height="29" Click="conDisconButton_Click" IsEnabled="False"/>
+        <TextBlock Name="fileTextBox" HorizontalAlignment="Left" Height="15" Margin="34,98,0,0" TextWrapping="Wrap" Text="File : " VerticalAlignment="Top" Width="507" FontSize="11"/>
+        <Button  x:FieldModifier="public" x:Name="loadFileButton" Content="Load file" HorizontalAlignment="Left" Margin="34,75,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="-1.362,2.425" Click="loadFileButton_Click"/>
+        <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Height="30" Margin="34,19,0,0" VerticalAlignment="Top" Width="76" Click="settingsButton_Click"/>
+        <ListBox x:FieldModifier="public" x:Name="serialLogBox" HorizontalAlignment="Left" Height="475" Margin="34,115,0,0" VerticalAlignment="Top" Width="507" BorderThickness="3" ClipToBounds="True"/>
+        <Button x:Name="sendFileButton" Content="Send fle!" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="125,75,0,0" IsEnabled="False" Click="sendFileButton_Click"/>
         <CheckBox Content="CheckBox" HorizontalAlignment="Left" Height="0" Margin="1160,225,-568,0" VerticalAlignment="Top" Width="0"/>
-        <Rectangle Name="machineStatusFlag" Fill="DarkGray" Margin="476,13,116,627" Stroke="DarkGray"/>
-        <TextBlock x:Name="PositionTextBlock" HorizontalAlignment="Left" Margin="40,724,0,0" TextWrapping="Wrap" Text="Aktualna pozycja:" VerticalAlignment="Top" RenderTransformOrigin="-1.02,0" Height="26" Width="501"/>
+        <StackPanel HorizontalAlignment="Left" Height="167" Margin="636,54,0,0" VerticalAlignment="Top" Width="200">
+            <Grid Margin="0,0,-50,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="55"></RowDefinition>
+                    <RowDefinition Height="55"></RowDefinition>
+                    <RowDefinition Height="55"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25px"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="75px"/>
+                </Grid.ColumnDefinitions>
+
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Margin="1,1,149,54" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                    <TextBlock  TextWrapping="Wrap" Text="X" FontSize="36" Margin="0,1,0,-1"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="1,0,149,0">
+                    <TextBlock  TextWrapping="Wrap" Text="Y" FontSize="36" Margin="1,0,-1,-1" Height="53" VerticalAlignment="Bottom"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Margin="1,54,149,1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                    <TextBlock TextWrapping="Wrap" Text="Z" FontSize="36" Margin="1,1,-1,-1"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Margin="0,1,0,54" Grid.RowSpan="2" Grid.Column="1">
+                    <TextBlock x:Name="xWorkingPostion" TextWrapping="Wrap" Text="Work" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Margin="25,0,0,0" Grid.ColumnSpan="2">
+                    <TextBlock x:Name="yWorkingPostion" TextWrapping="Wrap" Text="Work" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Margin="25,54,0,1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                    <TextBlock x:Name="zWorkingPostion" TextWrapping="Wrap" Text="Work" FontSize="24" Cursor="" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0" Margin="149,1,-24,54" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                    <TextBlock x:Name="xMachinePostion" TextWrapping="Wrap" Text="Machine" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Margin="149,0,-24,0" Grid.Column="1" Grid.ColumnSpan="2">
+                    <TextBlock x:Name="yMachinePostion" TextWrapping="Wrap" Text="Machine" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1" Margin="149,54,-24,1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2">
+                    <TextBlock x:Name="zMachinePostion" TextWrapping="Wrap" Text="Machine" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Border>
+
+            </Grid>
+        </StackPanel>
+        <TextBlock x:Name="PositionTextBlock" HorizontalAlignment="Left" Height="15" Margin="329,690,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="507" FontSize="11"><Run Text="Aktualna pozycja"/><Run Text=" : "/></TextBlock>
+
+        <Canvas HorizontalAlignment="Left" Height="200" Margin="580,235,0,0" VerticalAlignment="Top" Width="400">
+            <Rectangle  Height="200" Width="400" Fill="#FFACACAC"/>
+            <Ellipse Canvas.ZIndex="99" x:Name="PositionPointer" Fill="Red" HorizontalAlignment="Left" Height="5" Margin="0,198.5,0,0" Stroke="Red" VerticalAlignment="Top" Width="5"/>
+        </Canvas>
+        <Rectangle Fill="#FFACACAC" HorizontalAlignment="Left" Height="35" Margin="590,14,0,0" VerticalAlignment="Top" Width="255"/>
+        <Button x:Name="ResetZeroButton" Content="Reset Zero" HorizontalAlignment="Left" Height="65" Margin="230,25,0,0" VerticalAlignment="Top" Width="65" Click="ResetZeroButton_Click_1"/>
+        <Button x:Name="UnlockButton" Content="Unlock" HorizontalAlignment="Left" Height="65" Margin="315,25,0,0" VerticalAlignment="Top" Width="65"/>
+        <Button x:Name="HoldButton" Content="Hold" HorizontalAlignment="Left" Height="65" Margin="400,25,0,0" VerticalAlignment="Top" Width="65"/>
+        <Button x:Name="ResumeButton" Content="Resume" HorizontalAlignment="Left" Height="65" Margin="485,25,0,0" VerticalAlignment="Top" Width="65"/>
+        <TextBox x:Name="ManualCommand" HorizontalAlignment="Left" Height="40" Margin="34,625,0,0" TextWrapping="Wrap" Text="Manual commands here" VerticalAlignment="Top" Width="507" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyDown="ManualCommand_KeyDown"/>
+
 
     </Grid>
 </Window>

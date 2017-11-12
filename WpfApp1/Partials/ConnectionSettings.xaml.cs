@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using GrblEngineerProject.Machine;
 using System.IO.Ports;
 
 namespace GrblEngineerProject.Partials
@@ -24,7 +23,6 @@ namespace GrblEngineerProject.Partials
         CNCConnection myCNC = App.myGlobalConnection;
         String[] ports;
         int[] baudrates = { 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 28800, 38400, 57600, 115200 }; //hardcoded baudrates from https://www.arduino.cc/en/Serial/Begin
-        
 
         public ConnectionSettings()
         {

@@ -17,9 +17,9 @@ using System.IO.Ports;
 using System.Threading;
 using System.Windows.Threading;
 using System.Diagnostics;
-using GrblEngineerProject.Machine;
 using GrblEngineerProject.Partials;
 using GrblEngineerProject;
+using System.Globalization;
 
 namespace GrblEngineerProject
 {
@@ -32,14 +32,17 @@ namespace GrblEngineerProject
         {
             InitializeComponent();
             myCNC.LineReceived += myCNCLineReceived;
+            myCNC.PositionReceived += myCNCPositionReceived;
             myCNC.LineSent += myCNCLineSent;
+            PristineStatus();
+
         }
 
 
 
         private void conDisconButton_Click(object sender, RoutedEventArgs e)
         {
-           
+
             if (!myCNC.isConnected)
             {
                 myCNC.connect();
@@ -53,9 +56,10 @@ namespace GrblEngineerProject
                 serialLogBox.Items.Clear();
                 myTimer = 0;
                 conDisconButton.Content = "Connect";
+                fileName = "";
             }
         }
-        
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             DispatcherTimer dt = new DispatcherTimer();
@@ -63,6 +67,15 @@ namespace GrblEngineerProject
             dt.Tick += dtTicker;
             dt.Start();
         }
+
+        private void PristineStatus()
+        {
+            conDisconButton.IsEnabled = false;
+            loadFileButton.IsEnabled = true;
+            sendFileButton.IsEnabled = false;
+            settingsButton.IsEnabled = true;
+        }
+
 
         private void dtTicker(object sender, EventArgs e)
         {
@@ -73,38 +86,41 @@ namespace GrblEngineerProject
 
                 if (myCNC.isConnected)
                 {
-                    machineStatusFlag.Fill = Brushes.Green;
                     myTimer++;
                     responseBlock.Foreground = Brushes.Green;
                     responseBlock.Text = "Connected!";
                     conDisconButton.Content = "Disconnect";
-                    sendFileButton.IsEnabled = true;
-                    if (!myCNC.isCNCIdle)
+                    if(fileName != "") { 
+                        if (GlobalVariables.MachineStatus == "Idle")
+                        {
+                            sendFileButton.IsEnabled = true;
+                        }
+                        else
+                        {
+                            sendFileButton.IsEnabled = false;
+                        }
+                    }
+                    if (myCNC.type == "file")
                     {
-                        machineStatusFlag.Fill = Brushes.Red;
                         loadFileButton.IsEnabled = false;
-                        sendFileButton.IsEnabled = false;
                     }
                     else
                     {
-                        machineStatusFlag.Fill = Brushes.Green;
                         loadFileButton.IsEnabled = true;
-                        sendFileButton.IsEnabled = true;
                     }
                 }
                 else
                 {
+                    fileName = "";
                     responseBlock.Foreground = Brushes.Red;
                     responseBlock.Text = "No connection";
                     conDisconButton.Content = "Connect";
-                    sendFileButton.IsEnabled = false;
-                    machineStatusFlag.Fill = Brushes.DarkGray;
                 }
 
             }
-           
-           
-            time_ticks.Content = myTimer/2 + "s";
+
+
+            time_ticks.Content = myTimer / 2 + "s";
 
         }
 
@@ -128,7 +144,7 @@ namespace GrblEngineerProject
                 }
             }
 
-           
+
 
         }
 
@@ -149,24 +165,95 @@ namespace GrblEngineerProject
             serialLogBox.Items.Add(obj);
             scrollDown(serialLogBox);
         }
+
         private void myCNCLineSent(string obj)
         {
             serialLogBox.Items.Add(obj);
             scrollDown(serialLogBox);
         }
+
         private void myCNCPositionReceived(string obj)
         {
             PositionTextBlock.Text = obj;
+            SetGlobalCoordinates(obj);
+            UpdateCoordinatesView();
         }
 
+        private void UpdateCoordinatesView()
+        {
+            if(GlobalVariables.MachinePositionAsPoint.x != null && GlobalVariables.MachinePositionAsPoint.y != null && GlobalVariables.MachinePositionAsPoint.z != null
+                && GlobalVariables.WorkingPositionAsPoint.x != null && GlobalVariables.WorkingPositionAsPoint.x != null && GlobalVariables.WorkingPositionAsPoint.x != null) {
+            xMachinePostion.Text = GlobalVariables.MachinePositionAsPoint.x;
+            yMachinePostion.Text = GlobalVariables.MachinePositionAsPoint.y;
+            zMachinePostion.Text = GlobalVariables.MachinePositionAsPoint.z;
+            xWorkingPostion.Text = GlobalVariables.WorkingPositionAsPoint.x;
+            yWorkingPostion.Text = GlobalVariables.WorkingPositionAsPoint.y;
+            zWorkingPostion.Text = GlobalVariables.WorkingPositionAsPoint.z;
+            Thickness m = PositionPointer.Margin;
+            var styles = NumberStyles.AllowParentheses | NumberStyles.AllowTrailingSign | NumberStyles.Float | NumberStyles.AllowDecimalPoint;
+            m.Left = -2.5 + Double.Parse(GlobalVariables.WorkingPositionAsPoint.x, styles, System.Globalization.NumberFormatInfo.InvariantInfo) /2.5;
+            m.Top = 198.5-Double.Parse(GlobalVariables.WorkingPositionAsPoint.y, styles, System.Globalization.NumberFormatInfo.InvariantInfo)/2.5;
+            PositionPointer.Margin = m;
+            }
+        }
+
+        private void SetGlobalCoordinates(string obj){
+            if (obj.StartsWith("<A"))
+            {
+                GlobalVariables.MachineStatus = "ALARM";
+                return;
+            }
+            GlobalVariables.PositionAnswer = obj.Clone().ToString();
+            int statusStart = GlobalVariables.PositionAnswer.IndexOf('<') + 1;
+            int statusEnd = GlobalVariables.PositionAnswer.IndexOf(',') - 1;
+            int statusLenght = statusEnd - statusStart + 1;
+            int machinePosStart = GlobalVariables.PositionAnswer.IndexOf(':') + 1;
+            int machinePosEnd = GlobalVariables.PositionAnswer.IndexOf("WPos") - 1;
+            int machinePosLenght = machinePosEnd - machinePosStart;
+            int workingPosStart = GlobalVariables.PositionAnswer.LastIndexOf(":") + 1;
+            int workingPosEnd = GlobalVariables.PositionAnswer.IndexOf(">");
+            int workingPosLenght = workingPosEnd - workingPosStart;
+            char[] machineStatusAsCharArray = new char[statusLenght];
+            char[] machinePositionAsCharArray = new char[machinePosLenght];
+            char[] workingPositionAsCharArray = new char[workingPosLenght];
+            GlobalVariables.PositionAnswer.CopyTo(statusStart, machineStatusAsCharArray, 0, statusLenght);
+            GlobalVariables.PositionAnswer.CopyTo(machinePosStart, machinePositionAsCharArray, 0, machinePosLenght);
+            GlobalVariables.PositionAnswer.CopyTo(machinePosEnd + 6, workingPositionAsCharArray, 0, workingPosLenght);
+            string tempstatus = new string(machineStatusAsCharArray);
+            string machinePosition = new string(machinePositionAsCharArray);
+            string workingPosition = new string(workingPositionAsCharArray);
+            GlobalVariables.MachineStatus = tempstatus;
+            GlobalVariables.MachinePos = machinePosition;
+            GlobalVariables.WorkPos = workingPosition;
+            try {
+                GlobalVariables.MachinePositionAsPoint.x = GlobalVariables.MachinePos.Substring(0, GlobalVariables.MachinePos.IndexOf(","));
+                GlobalVariables.MachinePositionAsPoint.y = GlobalVariables.MachinePos.Substring(GlobalVariables.MachinePos.IndexOf(",")+1, GlobalVariables.MachinePos.LastIndexOf(",")- GlobalVariables.MachinePos.IndexOf(",")-1);
+                GlobalVariables.MachinePositionAsPoint.z = GlobalVariables.MachinePos.Substring(GlobalVariables.MachinePos.LastIndexOf(",")+1, GlobalVariables.MachinePos.Length- GlobalVariables.MachinePos.LastIndexOf(",")-1);
+                GlobalVariables.WorkingPositionAsPoint.x = GlobalVariables.WorkPos.Substring(0, GlobalVariables.WorkPos.IndexOf(","));
+                GlobalVariables.WorkingPositionAsPoint.y = GlobalVariables.WorkPos.Substring(GlobalVariables.WorkPos.IndexOf(",") + 1, GlobalVariables.WorkPos.LastIndexOf(",") - GlobalVariables.WorkPos.IndexOf(",") - 1);
+                GlobalVariables.WorkingPositionAsPoint.z = GlobalVariables.WorkPos.Substring(GlobalVariables.WorkPos.LastIndexOf(",") + 1, GlobalVariables.WorkPos.Length - GlobalVariables.WorkPos.LastIndexOf(",") - 1);
+            }
+            catch
+            {
+            }
+            
+        }
         private void sendFileButton_Click(object sender, RoutedEventArgs e)
         {
-            myCNC.Work();
+            myCNC.type = "file";
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
 
+        private void ResetZeroButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            myCNC.resetZero();
+        }
+        private void ManualCommand_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key  == Key.Enter)
+            {
+                myCNC.manualCommand(ManualCommand.Text);
+            }
         }
     }
 }
