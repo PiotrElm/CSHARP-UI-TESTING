@@ -21,7 +21,6 @@ namespace GrblEngineerProject
         public event Action<string> LineReceived;
         public event Action<string> PositionReceived;
         public event Action<string> LineSent;
-        public event Action<string> AlarmReceived;
         private Thread CNCThread;
         private Stream Connection;
 
@@ -100,11 +99,32 @@ namespace GrblEngineerProject
                 ManualCommandsQueue.Enqueue("G90 G10 L20 P0 X0 Y0 Z0");
             }
         }
-        public void manualCommand(string command)
+        public void resumeMachine()
+        {
+            if (this.isConnected == true)
+            {
+                ManualCommandsQueue.Enqueue("~");
+            }
+        }
+        public void holdMachine()
         {
             if (this.isConnected == true )
             {
+                ManualCommandsQueue.Enqueue("!");
+            }
+        }
+        public void manualCommand(string command)
+        {
+            if (this.isConnected == true && GlobalVariables.MachineStatus == "Idle")
+            {
                 ManualCommandsQueue.Enqueue(command);
+            }
+        }
+        public void unlockMachine()
+        {
+            if (this.isConnected == true && GlobalVariables.MachineStatus == "Idle")
+            {
+                ManualCommandsQueue.Enqueue("$X");
             }
         }
         public void Work()
@@ -149,6 +169,7 @@ namespace GrblEngineerProject
                             portWriter.Write(send_line);
                             portWriter.Write('\n');
                             portWriter.Flush();
+                            SentLinesQueue.Enqueue(send_line);
                             ActionStart(LineSent, send_line);
                             BufferState += send_line.Length + 1;
                         }

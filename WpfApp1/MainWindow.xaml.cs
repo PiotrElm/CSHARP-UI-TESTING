@@ -83,6 +83,30 @@ namespace GrblEngineerProject
             if (myCNC.isConfigured)
             {
                 conDisconButton.IsEnabled = true;
+                try {
+                    MachineStatusTextBlock.Text = GlobalVariables.MachineStatus;
+                    if (GlobalVariables.MachineStatus == "Idle")
+                    {
+                        MachineStatusCanvas.Background = Brushes.LightGreen;
+                    }
+                    if (GlobalVariables.MachineStatus == "Run")
+                    {
+                        MachineStatusCanvas.Background = Brushes.Yellow;
+                    }
+                    if (GlobalVariables.MachineStatus == "Hold")
+                    {
+                        MachineStatusCanvas.Background = Brushes.Orange;
+                    }
+                    if (GlobalVariables.MachineStatus == "Alarm")
+                    {
+                        MachineStatusCanvas.Background = Brushes.Red;
+                    }
+                }
+                
+                catch
+                {
+
+                }
 
                 if (myCNC.isConnected)
                 {
@@ -174,7 +198,6 @@ namespace GrblEngineerProject
 
         private void myCNCPositionReceived(string obj)
         {
-            PositionTextBlock.Text = obj;
             SetGlobalCoordinates(obj);
             UpdateCoordinatesView();
         }
@@ -254,6 +277,16 @@ namespace GrblEngineerProject
             {
                 myCNC.manualCommand(ManualCommand.Text);
             }
+        }
+
+        private void HoldButton_Click(object sender, RoutedEventArgs e)
+        {
+            myCNC.holdMachine();
+        }
+
+        private void ResumeButton_Click(object sender, RoutedEventArgs e)
+        {
+            myCNC.resumeMachine();
         }
     }
 }

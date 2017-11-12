@@ -12,6 +12,7 @@ namespace GrblEngineerProject
         public static string MachineStatus;
         public static string MachinePos;
         public static string WorkPos;
+        public static int BufferState;
        public static point MachinePositionAsPoint = new point();
        public static point WorkingPositionAsPoint = new point();
     }

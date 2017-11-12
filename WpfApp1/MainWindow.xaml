@@ -68,18 +68,20 @@
 
             </Grid>
         </StackPanel>
-        <TextBlock x:Name="PositionTextBlock" HorizontalAlignment="Left" Height="15" Margin="329,690,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="507" FontSize="11"><Run Text="Aktualna pozycja"/><Run Text=" : "/></TextBlock>
 
         <Canvas HorizontalAlignment="Left" Height="200" Margin="580,235,0,0" VerticalAlignment="Top" Width="400">
             <Rectangle  Height="200" Width="400" Fill="#FFACACAC"/>
             <Ellipse Canvas.ZIndex="99" x:Name="PositionPointer" Fill="Red" HorizontalAlignment="Left" Height="5" Margin="0,198.5,0,0" Stroke="Red" VerticalAlignment="Top" Width="5"/>
         </Canvas>
-        <Rectangle Fill="#FFACACAC" HorizontalAlignment="Left" Height="35" Margin="590,14,0,0" VerticalAlignment="Top" Width="255"/>
         <Button x:Name="ResetZeroButton" Content="Reset Zero" HorizontalAlignment="Left" Height="65" Margin="230,25,0,0" VerticalAlignment="Top" Width="65" Click="ResetZeroButton_Click_1"/>
         <Button x:Name="UnlockButton" Content="Unlock" HorizontalAlignment="Left" Height="65" Margin="315,25,0,0" VerticalAlignment="Top" Width="65"/>
-        <Button x:Name="HoldButton" Content="Hold" HorizontalAlignment="Left" Height="65" Margin="400,25,0,0" VerticalAlignment="Top" Width="65"/>
-        <Button x:Name="ResumeButton" Content="Resume" HorizontalAlignment="Left" Height="65" Margin="485,25,0,0" VerticalAlignment="Top" Width="65"/>
+        <Button x:Name="HoldButton" Content="Hold" HorizontalAlignment="Left" Height="65" Margin="400,25,0,0" VerticalAlignment="Top" Width="65" Click="HoldButton_Click"/>
+        <Button x:Name="ResumeButton" Content="Resume" HorizontalAlignment="Left" Height="65" Margin="485,25,0,0" VerticalAlignment="Top" Width="65" Click="ResumeButton_Click"/>
         <TextBox x:Name="ManualCommand" HorizontalAlignment="Left" Height="40" Margin="34,625,0,0" TextWrapping="Wrap" Text="Manual commands here" VerticalAlignment="Top" Width="507" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyDown="ManualCommand_KeyDown"/>
+        <Canvas x:Name="MachineStatusCanvas" HorizontalAlignment="Left" Background="#FFACACAC" Height="30" Margin="675,19,0,0" VerticalAlignment="Top" Width="200">
+            <TextBlock x:Name="MachineStatusTextBlock" TextAlignment="Center" Text="IDLE" Height="30" Width="200" FontSize="24" RenderTransformOrigin="0.5,0.367" Canvas.Top="-2"/>
+        </Canvas>
+
 
 
     </Grid>
